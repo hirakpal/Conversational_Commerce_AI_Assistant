@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# Now this line on line 7 will work perfectly:
 intent_engine = IntentEngine()
 context_manager = ContextManager()
 
