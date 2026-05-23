@@ -1,15 +1,24 @@
+import os
 import redis
 import json
 
 class ContextManager:
-    def __init__(self, redis_host='localhost', redis_port=6379):
-        self.db = redis.Redis(host=redis_host, port=redis_port, decode_responses=True)
+    def __init__(self):
+        # Read variables configured via Streamlit Secrets
+        redis_host = os.environ.get("REDIS_HOST", "localhost")
+        redis_port = int(os.environ.get("REDIS_PORT", 6379))
+        redis_password = os.environ.get("REDIS_PASSWORD", None)
+
+        self.db = redis.Redis(
+            host=redis_host, 
+            port=redis_port, 
+            password=redis_password, 
+            decode_responses=True
+        )
         self.ttl = 1800  # 30-minute session retention
 
     def save_turn(self, session_id: str, user_query: str, ai_response: str, intent_data: dict):
         session_key = f"session:{session_id}"
-        
-        # Pull current history
         history = self.get_history(session_id)
         history.append({"user": user_query, "assistant": ai_response})
         
@@ -17,7 +26,6 @@ class ContextManager:
             "history": history,
             "last_intent": intent_data
         }
-        
         self.db.setex(session_key, self.ttl, json.dumps(payload))
 
     def get_history(self, session_id: str) -> list:
