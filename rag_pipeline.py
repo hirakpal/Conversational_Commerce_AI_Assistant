@@ -4,7 +4,7 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
 
 class MissEmilyRAGPipeline:
-    def __init__(self, vector_store_url=None, index_name="missemilyrag-pipeline"):
+    def __init__(self, vector_store_url=None, index_name="emily-commerce-ai"):
         """
         Initializes the Pinecone RAG Pipeline.
         Note: vector_store_url is kept in the signature to prevent breaking main.py,
