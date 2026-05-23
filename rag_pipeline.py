@@ -1,7 +1,7 @@
 from qdrant_client import QdrantClient
 from langchain_openai import ChatOpenAI
 
-class RufusRAGPipeline:
+class MissEmilyRAGPipeline:
     def __init__(self, vector_store_url: str):
         self.qdrant = QdrantClient(url=vector_store_url)
         self.llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
