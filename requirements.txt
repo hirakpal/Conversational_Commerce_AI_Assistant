@@ -1,0 +1,7 @@
+streamlit>=1.57.0
+fastapi
+uvicorn
+pydantic>=2.0
+langchain-core
+langchain-openai
+redis
