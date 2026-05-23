@@ -4,15 +4,16 @@ import json
 
 class ContextManager:
     def __init__(self):
-        # Read variables configured via Streamlit Secrets
-        redis_host = os.environ.get("REDIS_HOST", "localhost")
-        redis_port = int(os.environ.get("REDIS_PORT", 12621))
-        redis_password = os.environ.get("REDIS_PASSWORD", None)
+        # Explicitly pull variables from the Streamlit Secrets TOML wrapper
+        redis_host = st.secrets.get("REDIS_HOST", "localhost")
+        redis_port = int(st.secrets.get("REDIS_PORT", 12621))
+        redis_password = st.secrets.get("REDIS_PASSWORD", None)
 
+        # Connect directly using the password parameter
         self.db = redis.Redis(
             host=redis_host, 
             port=redis_port, 
-            password=redis_password, 
+            password=redis_password,  
             decode_responses=True
         )
         self.ttl = 1800  # 30-minute session retention
