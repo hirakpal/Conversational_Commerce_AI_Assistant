@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 import os
-os.environ['OPENAI_API_KEY'] = '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'
+
 
 # Define structured output matching Rufus specifications
 class ShoppingIntent(BaseModel):
