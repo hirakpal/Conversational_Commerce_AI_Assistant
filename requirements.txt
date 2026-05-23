@@ -6,3 +6,4 @@ langchain-core
 langchain-openai
 redis
 qdrant-client
+langchain-pinecone
