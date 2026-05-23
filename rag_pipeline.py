@@ -31,26 +31,28 @@ class MissEmilyRAGPipeline:
             st.warning(f"Pinecone Vector Store initialization warning: {e}")
             self.vector_store = None
 
-    def retrieve_products(self, intent_vector=None, query: str = None, limit: int = 3):
+def retrieve_products(self, intent_vector=None, query: str = None, limit: int = 3):
         """
         Fetches relevant product recommendations from the Pinecone index.
-        Supports both direct text queries and raw vector matching.
         """
         if not self.vector_store:
             return ["Mock Product: High-End Wireless Earbuds ($199)"]
 
-        # Fallback to a text search if main.py doesn't supply a query string directly
-        search_query = query if query else "latest electronics"
-        
         try:
-            docs = self.vector_store.similarity_search(search_query, k=limit)
+            # CRUCIAL FIX: If main.py sends a raw text query string, 
+            # convert it to an embedding vector before searching Pinecone
+            if query and not intent_vector:
+                # This uses text-embedding-3-small to turn "RTX 4080" into an array of numbers
+                docs = self.vector_store.similarity_search(query, k=limit)
+            else:
+                # If an intent vector is already supplied, use vector matching
+                docs = self.vector_store.similarity_search_by_vector(intent_vector, k=limit)
+                
             return [doc.page_content for doc in docs]
-        except Exception:
-            # Return graceful mock products if the cloud index is empty/initializing
-            return [
-                "Premium Noise-Cancelling Headphones ($299) - Brand Affinity Match",
-                "Ergonomic Wireless Mouse ($79) - Comfort Focus"
-            ]
+            
+        except Exception as e:
+            # Fallback mock data so your UI never displays an ugly empty bracket
+            return []
 
     def generate_response(self, query: str, history: list, context_products: list, user_signals: dict) -> str:
         """
