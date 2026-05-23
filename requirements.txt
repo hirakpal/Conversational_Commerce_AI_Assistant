@@ -5,3 +5,4 @@ pydantic>=2.0
 langchain-core
 langchain-openai
 redis
+qdrant-client
