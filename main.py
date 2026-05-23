@@ -1,14 +1,14 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
+# 1. ADD THESE IMPORTS AT THE TOP SO PYTHON CAN FIND YOUR MODULES
+from intent_engine import IntentEngine
+from context_manager import ContextManager
+from rag_pipeline import MissEmilyRAGPipeline
+
 app = FastAPI(title="Miss Emily Commerce AI Clone")
 
-intent_engine = IntentEngine()
-context_manager = ContextManager()
-
-app = FastAPI(title="Miss Emily Commerce AI Clone")
-
-# Initialize modules (mock connections)
+# Initialize modules
 intent_engine = IntentEngine()
 context_manager = ContextManager()
 rag_pipeline = MissEmilyRAGPipeline(vector_store_url="http://localhost:6333")
