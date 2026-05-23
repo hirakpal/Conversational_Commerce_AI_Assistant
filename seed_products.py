@@ -27,6 +27,15 @@ def seed_database():
         Document(
             page_content="Sony WH-1000XM5 Wireless Headphones (Active Noise Cancelling, 30hr Battery Life, Silver) - $349. Top tier premium audio.",
             metadata={"category": "Electronics", "brand": "Sony"}
+        ),
+         ),
+        Document(
+            page_content="Samsung Galaxy S26 Ultra (512GB, Phantom Black) - $1,299. Flagship smartphone with 200MP camera and built-in stylus.",
+            metadata={"category": "Electronics", "brand": "Samsung"}
+        ),
+        Document(
+            page_content="Apple MacBook Pro 14-inch (M4 Pro Chip, 24GB Unified Memory, 512GB SSD) - $1,999. Professional creator laptop.",
+            metadata={"category": "Laptops", "brand": "Apple"}
         )
     ]
 
