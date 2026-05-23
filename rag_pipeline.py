@@ -20,18 +20,16 @@ class MissEmilyRAGPipeline:
         self.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
         
         # 3. Connect to your hosted Pinecone cloud vector database index
-        # This completely bypasses the local 'connection refused' errors
         try:
             self.vector_store = PineconeVectorStore(
                 index_name=index_name, 
                 embedding=self.embeddings
             )
         except Exception as e:
-            # Fallback block to prevent the app from freezing up if the index isn't ready
             st.warning(f"Pinecone Vector Store initialization warning: {e}")
             self.vector_store = None
 
-def retrieve_products(self, intent_vector=None, query: str = None, limit: int = 3):
+    def retrieve_products(self, intent_vector=None, query: str = None, limit: int = 3):
         """
         Fetches relevant product recommendations from the Pinecone index.
         """
@@ -39,27 +37,23 @@ def retrieve_products(self, intent_vector=None, query: str = None, limit: int = 
             return ["Mock Product: High-End Wireless Earbuds ($199)"]
 
         try:
-            # CRUCIAL FIX: If main.py sends a raw text query string, 
-            # convert it to an embedding vector before searching Pinecone
+            # If main.py sends a raw text query string, convert to vectors implicitly
             if query and not intent_vector:
-                # This uses text-embedding-3-small to turn "RTX 4080" into an array of numbers
                 docs = self.vector_store.similarity_search(query, k=limit)
             else:
-                # If an intent vector is already supplied, use vector matching
                 docs = self.vector_store.similarity_search_by_vector(intent_vector, k=limit)
                 
             return [doc.page_content for doc in docs]
             
         except Exception as e:
-            # Fallback mock data so your UI never displays an ugly empty bracket
+            # Clean empty fallback gracefully handled by your UI
             return []
 
     def generate_response(self, query: str, history: list, context_products: list, user_signals: dict) -> str:
         """
         Simulates the LLM Response Orchestration Layer using the retrieved context.
         """
-        # Quick fallback response generation logic
-        products_str = ", ".join(context_products)
+        products_str = ", ".join(context_products) if context_products else "matching items"
         return (
             f"Based on your interest in products like [{products_str}] and your preference "
             f"for {user_signals.get('brand_affinity', 'premium')} brands, here is what I recommend..."
