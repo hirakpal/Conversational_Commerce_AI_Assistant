@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+app = FastAPI(title="Miss Emily Commerce AI Clone")
 
 intent_engine = IntentEngine()
 context_manager = ContextManager()
