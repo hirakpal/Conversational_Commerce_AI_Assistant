@@ -1,7 +1,15 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from intent_engine import IntentEngine 
+from context_manager import ContextManager 
 
-app = FastAPI(title="Amazon Rufus Commerce AI Clone")
+app = FastAPI()
+
+# Now this line on line 7 will work perfectly:
+intent_engine = IntentEngine()
+context_manager = ContextManager()
+
+app = FastAPI(title="Miss Emily Commerce AI Clone")
 
 # Initialize modules (mock connections)
 intent_engine = IntentEngine()
