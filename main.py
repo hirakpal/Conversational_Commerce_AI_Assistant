@@ -1,7 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from intent_engine import IntentEngine 
-from context_manager import ContextManager 
 
 app = FastAPI()
 
