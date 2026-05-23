@@ -19,7 +19,7 @@ intent_engine, context_manager, rag_pipeline = get_engines()
 st.set_page_config(page_title="Miss Emily AI Assistant", page_icon="🛍️")
 
 st.title("🛍️ Miss Emily Commerce AI")
-st.caption("Context Engine & RAG Pipeline Live")
+st.caption("Powered by MissEmily RAG Pipeline & Live Context Engine")
 
 # Setup Session State
 if "session_id" not in st.session_state:
