@@ -13,7 +13,8 @@ class ContextManager:
         # Connect directly using the password parameter
         self.db = redis.Redis(
             host=redis_host, 
-            port=redis_port, 
+            port=redis_port,
+            username="default",
             password=redis_password,  
             decode_responses=True
         )
